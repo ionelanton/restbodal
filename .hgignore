@@ -1,8 +1,10 @@
-.hg
+# use glob syntax.
+syntax: glob
+
+.git
 .idea/workspace.xml
 *.elc
 *.pyc
 *~
 .directory
 *.log
-
