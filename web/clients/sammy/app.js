@@ -32,17 +32,23 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(resp){
-                    $("#server-message").text(resp.result + ': ' + JSON.stringify(resp.message));
+
                     if (resp.result == 'error') {
+                        $("#server-message").text(resp.result);
+                        $("#server-message").parent().addClass("alert-error");
                         ShowErrors(resp.message);
                     } else {
+                        $("#server-message").text(JSON.stringify(resp.message));
+                        $("#server-message").parent().addClass("alert-success");
                         ResetFields(['firstname', 'lastname', 'gender', 'phone']);
                     }
                 },
-                failure: function(errMsg) {
-                    $("#server-message").text(errMsg);
+                error: function(errMsg) {
+                    $("#server-message").html(JSON.stringify(errMsg).replace(/\\n/g, ''));
+                    $("#server-message").parent().addClass("alert-error");
                 }
             });
+            this.app.swap();
             this.redirect('#/');
         });
 
@@ -79,6 +85,7 @@
                     $('input:radio[name=gender]').checked = false;
                 }
             }
+            $("#server-message").parent().removeClass("alert-error");
         }
 
     });
