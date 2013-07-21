@@ -1827,7 +1827,7 @@ class BaseAdapter(ConnectionPool):
             obj = bar_encode(obj)
         if obj is None:
             return 'NULL'
-        if obj == '' and not fieldtype[:2] in ['st', 'te', 'js', 'pa', 'up']:
+        if obj == '' and not fieldtype[:2] in ['st', 'te', 'lib', 'pa', 'up']:
             return 'NULL'
         r = self.represent_exceptions(obj, fieldtype)
         if not r is None:

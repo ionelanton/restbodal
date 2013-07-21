@@ -3,19 +3,19 @@ from lib.bottle import route, response, request, static_file
 import json
 
 
-# @get('/client/<filename:re:.*\.html>')
-# def static_html_files(filename):
-#     return static_file(filename, root='client')
-
-
 @route('/')
 def index():
-    return static_file('README.md', root='')
-
-
-@route('/web')
-def index_web():
     return static_file('index.html', root='web')
+
+
+@route('/web/<filepath:path>')
+def static(filepath):
+    return static_file(filepath, root='web')
+
+
+@route('/sammy/<filepath:path>')
+def web_client_sammy(filepath):
+    return static_file(filepath, root='web/clients/sammy')
 
 
 @route('/persons', method='POST')
@@ -36,10 +36,10 @@ def add_person():
         return str(json.dumps({u'result': u'error', u'message': record.errors.as_dict()}))
 
 
-@route('/persons')
+@route('/persons', method='GET')
 def all_persons():
     response.content_type = AppConfig.content_type
-    return str(json.dumps(db().select(db.person.ALL).as_list()))
+    return json.dumps(db().select(db.person.ALL).as_list())
 
 
 @route('/persons/:id')
